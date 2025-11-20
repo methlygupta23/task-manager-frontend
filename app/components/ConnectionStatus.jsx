@@ -10,13 +10,17 @@ export default function ConnectionStatus() {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch(getAPIUrl().replace('/api', '/health'));
+        const healthUrl = getAPIUrl().replace('/api', '/health');
+        console.log('Checking backend connection at:', healthUrl);
+        const response = await fetch(healthUrl);
+        console.log('Health check response:', response.status);
         if (response.ok) {
           setStatus('connected');
         } else {
           setStatus('disconnected');
         }
       } catch (error) {
+        console.error('Connection check failed:', error);
         setStatus('disconnected');
       }
     };
